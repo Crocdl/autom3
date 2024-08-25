@@ -45,18 +45,34 @@
         | program assigning_defenition {$1.a->addChildren($2.a); std::cout<<"assigning_defenition->program"<<std::endl;}
         | program cycle {$1.a->addChildren($2.a); std::cout<<"cycle->program"<<std::endl;}
         | program function {$1.a->addChildren($2.a); std::cout<<"function->program"<<std::endl;}
+        | program robot_rotate_comand {$1.a->addChildren($2.a); std::cout<<"robot_rotate_comand->program"<<std::endl;}
         | program sentence {$1.a->addChildren($2.a); std::cout<<"function->program"<<std::endl;}
         | program EoF {container_->print();$1.a->execute();std::cout<<"val"<<std::endl;container->print();}
         |   {$$.a = std::make_shared<StartNode>(container); std::cout<<"Start"<<std::endl; container_->Up(); container->Up();}
         ;
     robot_move_comand:
-        LEFT
-        |RIGHT
-        |FORWARD
-        |BACK
+        LEFT {
+        auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<MoveRobotNode>(container,robot, map, direction::LEFT_));
+        $$.a = n;
+        }
+        | RIGHT {
+        auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<MoveRobotNode>(container,robot, map, direction::RIGHT_));
+        $$.a = n;
+        }
+        | FORWARD {
+        auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<MoveRobotNode>(container,robot, map, direction::UP_));
+        $$.a = n;
+        }
+        | BACK {
+        auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<MoveRobotNode>(container,robot, map, direction::DOWN_));
+        $$.a = n;
+        }
         ;
     robot_rotate_comand:
-        LEFTROT ';'
+        LEFTROT ';'{
+            auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<RotateRobotNode>(container,robot, map, true));
+            $$.a = n;
+         }
         |RIGHTROT ';'
         ;
     value:
@@ -86,6 +102,7 @@
             $$.a = n;
             std::cout<<"get Array"<<std::endl;
         }
+        | robot_move_comand{ $$.a = $1.a;}
         ;
     type_coversion:
         '(' TYPE_INTEGER ')' expresion {
@@ -404,7 +421,6 @@ int main() {
     yyin = fopen ("./test.txt", "r");
     try{
     yyparse();
-    robot->print();
     } catch(std::runtime_error b){
     std::cout<<b.what()<<std::endl;
     container->print();

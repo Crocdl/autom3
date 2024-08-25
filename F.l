@@ -68,17 +68,23 @@ array\ of {
 function {
     return FUNC;
 }
-LEFT {
+left {
     return LEFT;
 }
-RIGHT {
+right {
     return RIGHT;
 }
-FORWARD {
+forward {
     return FORWARD;
 }
-BACK {
+back {
     return BACK;
+}
+left_rotate {
+    return LEFTROT;
+}
+right_rotate {
+    return RIGHTROT;
 }
 \/HELP\\ {
 return EoF;

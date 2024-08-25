@@ -1,5 +1,5 @@
-glass,iron,iron,glass|iron,iron|wood
-iron|wood,iron|wood, ,glass,wood
-glass,iron|wood, ,wood,glass|iron
+ , ,iron,glass|iron,iron|wood
+ ,iron|wood, ,glass,wood
+ , , ,wood,glass|iron
 glass,iron|wood, ,glass,glass
-iron|wood,Ex,iron|wood,glass,glass
+iron|wood,Ex, ,glass,glass

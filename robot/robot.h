@@ -21,7 +21,10 @@ private:
     position curr_pos;
     direction view;
 public:
-    Robot(std::shared_ptr<Map> &map, int drill): map(map), drill(drill), reflector(), view(UP_){}
+    Robot(std::shared_ptr<Map> &map, int drill): map(map), drill(drill), reflector(), view(UP_){
+        curr_pos.x = 0;
+        curr_pos.y = 0;
+    }
     u_int measure();
     bool left();
     bool right();

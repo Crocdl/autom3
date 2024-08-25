@@ -43,45 +43,61 @@ u_int Robot::measure() {
 }
 
 bool Robot::left() {
-    if((curr_pos.x+1)>=0){
-        curr_pos.x-=1;
-        return true;
+    std::cout<<"Move left "<<curr_pos.x<<std::endl;
+    if((curr_pos.x-1)>=0){
+        std::cout<<"Wall: "<<map->cells[curr_pos.x-1][curr_pos.y].wall<<std::endl;
+        if(map->cells[curr_pos.x-1][curr_pos.y].wall == " "){
+            curr_pos.x-=1;
+            print();
+            return true;
+        }else return false;
     }else return false;
 }
 bool Robot::up() {
-    if((curr_pos.y+1)<map->size.second){
-        if(map->cells[curr_pos.x][curr_pos.y].wall == " "){
+    std::cout<<"Move down"<<std::endl;
+    if((curr_pos.y-1)>=0){
+        std::cout<<"Wall: "<<map->cells[curr_pos.x][curr_pos.y-1].wall<<std::endl;
+        if(map->cells[curr_pos.x][curr_pos.y-1].wall == " "){
             curr_pos.y+=1;
+            print();
             return true;
         }else return false;
     }else return false;
 }
 bool Robot::right(){
-    if((curr_pos.y+1)<map->size.first){
-        if(map->cells[curr_pos.x][curr_pos.y].wall == " "){
-            curr_pos.y+=1;
+    std::cout<<"Move right"<<std::endl;
+    if((curr_pos.x+1)<map->cells.size()){
+        std::cout<<map->cells[curr_pos.x+1][curr_pos.y].wall<<std::endl;
+        if(map->cells[curr_pos.x+1][curr_pos.y].wall == " "){
+            curr_pos.x+=1;
+            print();
             return true;
         }else return false;
     }else return false;
 }
 bool Robot::down() {
-    if((curr_pos.y-1)>=0){
-        if(map->cells[curr_pos.x][curr_pos.y].wall == " "){
+    std::cout<<"Move down"<<std::endl;
+    if((curr_pos.y+1)<map->cells.size()){
+        std::cout<<"Wall: "<<map->cells[curr_pos.x][curr_pos.y+1].wall<<std::endl;
+        if(map->cells[curr_pos.x][curr_pos.y+1].wall == " "){
             curr_pos.y+=1;
+            print();
             return true;
         }else return false;
     }else return false;
 }
 bool Robot::left_rotate() {
-    view = static_cast<direction>((static_cast<int>(view)-1)%4);
+    view = static_cast<direction>((static_cast<int>(view)+1)%4);
+    print();
     return true;
 }
 bool Robot::right_rotate() {
-    view = static_cast<direction>((static_cast<int>(view)+1)%4);
+    view = static_cast<direction>((static_cast<int>(view)-1)%4);
+    print();
     return true;
 }
 void Robot::print(){
-    std::cout<<"Map print"<<std::endl;
+    std::cout<<"Map print, position: "<<curr_pos.x<<" "<<curr_pos.y<<std::endl;
     auto m = map->cells;
     for(size_t i = 0; i<m.size();i++){
         std::cout<<std::endl;
@@ -90,25 +106,26 @@ void Robot::print(){
         }
         std::cout<<std::endl;
         for(size_t j = 0; j<m[i].size(); j++){
-            view = DOWN_;
-            if((curr_pos.x == i) && (curr_pos.y == j)){
+            if(((size_t )curr_pos.x == j) && ((size_t)curr_pos.y == i)){
                 switch (view) {
                     case UP_:
-                        std::cout << "|      ^       |" ;
+                        std::cout << "|    ^       |" ;
                         break;
                     case DOWN_:
-                        std::cout << "|     \\/      |" ;
+                        std::cout << "|   \\/      |" ;
                         break;
                     case LEFT_:
-                        std::cout << "|      <       |" ;
+                        std::cout << "|    <       |" ;
                         break;
                     case RIGHT_:
-                        std::cout << "|      >       |" ;
+                        std::cout << "|    >       |" ;
 
                         break;
                 }
             }else{
-                std::cout<<std::internal<<std::setw(10)<<"|"<<m[i][j].wall<<std::setw(1)<<"|";
+                std::string res= "|"+m[i][j].wall+"|";
+                std::cout<<std::internal<<std::setw(14)<<res;
+                std::cout<<std::setw(1)<<"     ";
             }
         }
         std::cout<<std::endl;

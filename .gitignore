@@ -1,3 +1,7 @@
 cmake-build-debug
 .idea
 .DS_Store
+lab.tab.c
+lab.tab.h
+lab3
+lex.yy.c

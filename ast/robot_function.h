@@ -37,6 +37,8 @@ public:
     bool side;
     RotateRobotNode(std::shared_ptr<VariableContainer> &c, std::shared_ptr<Robot> r, std::shared_ptr<Map> m, bool d): RobotNode(c, r, m), side(d){}
     std::any execute() override{
-        return {};
+        if(side)
+            return robot->right_rotate();
+        return robot->left_rotate();
     }
 };

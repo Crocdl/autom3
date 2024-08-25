@@ -1,12 +1,5 @@
-int k = 1;
-int b = 3;
-int function fib(a = 0)
-start
-enter a<2 do
-start
-return 1;
-stop
-until false
-return fib(a-1)+fib(a-2);
-stop
+bool b = right;
+b = left;
+b = forward;
+left_rotate;
 /HELP\
