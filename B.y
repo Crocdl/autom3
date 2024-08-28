@@ -38,6 +38,7 @@
     %token EoF
     %token LOGOPERATOR
     %token CALL
+    %token MEAS BIND DEMOLISH
 %%
     program:
         program group {std::cout<<"group->program"<<std::endl;}
@@ -69,11 +70,32 @@
         }
         ;
     robot_rotate_comand:
-        LEFTROT ';'{
-            auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<RotateRobotNode>(container,robot, map, true));
+        LEFTROT {
+            auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<RotateRobotNode>(container,robot, map, false));
             $$.a = n;
          }
-        |RIGHTROT ';'
+        |RIGHTROT {
+            auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<RotateRobotNode>(container,robot, map, true));
+            $$.a = n;
+        }
+        ;
+    reflector:
+        MEAS {
+            auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<RobotMeasureNode>(container,robot, map));
+            $$.a = n;
+        }
+        ;
+    demolish:
+        DEMOLISH {
+            auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<DemolishRobotNode>(container,robot, map));
+            $$.a = n
+        }
+
+    bind:
+        BIND ID ';'{
+            auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<RobotBindNode>(container,robot, map, $2.s));
+            $$.a = n;
+        }
         ;
     value:
         INTEGER {std::cout<<"get NUMBER"<<std::endl;
@@ -103,6 +125,9 @@
             std::cout<<"get Array"<<std::endl;
         }
         | robot_move_comand{ $$.a = $1.a;}
+        | robot_rotate_comand {$$.a = $1.a;}
+        | reflector {$$.a = $1.a;};
+        | demolish {$$.a = $1.a;};
         ;
     type_coversion:
         '(' TYPE_INTEGER ')' expresion {
@@ -187,10 +212,12 @@
         function_declaration_end group {
             auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<FunctionDefinitionNode>(container, std::dynamic_pointer_cast<FunctionStartNode>($1.a)->getName(), $1.a));
             std::cout<<"function_declaration_end+group"<<std::endl;$1.a->addChildren($2.a); $$.a = n;
+            container_->Down();
         }
         | function_declaration_end sentence {
             auto n = std::dynamic_pointer_cast<ASTNode>(std::make_shared<FunctionDefinitionNode>(container, std::dynamic_pointer_cast<FunctionStartNode>($1.a)->getName(), $1.a));
             std::cout<<"function_declaration_end->function"<<std::endl;$1.a->addChildren($2.a); $$.a = n;
+            container_->Down();
         }
     function_call_begin:
         ID '('expresion {
@@ -222,6 +249,8 @@
         | assigning_defenition{$$.a = $1.a;}
         | call_function{$$.a = $1.a;}
         | return {$$.a = $1.a;}
+        | robot_rotate_comand ';'{$$.a = $1.a;}
+        | bind {$$.a = $1.a;}
         ;
     return:
         RETURN ID ';'{

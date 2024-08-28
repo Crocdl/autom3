@@ -62,7 +62,7 @@ start {
 stop {
     return EN;
 }
-array\ of {
+array\ *of {
     return ARRAY;
 }
 function {
@@ -85,6 +85,15 @@ left_rotate {
 }
 right_rotate {
     return RIGHTROT;
+}
+measure {
+    return MEAS;
+}
+demolish {
+    return DEMOLISH;
+}
+bind {
+    return BIND;
 }
 \/HELP\\ {
 return EoF;

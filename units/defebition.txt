@@ -1,0 +1,3 @@
+int a = 100, b = 90;
+bool k = true, c = a<b;
+str t = "help", z = (str)a;

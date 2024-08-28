@@ -375,7 +375,7 @@ public:
 class ValueNode: public ASTNode{
 public:
     std::any value;
-    std::any execute() override{    if (value.type()== typeid(int))std::cout<<"Execute ValueNode "<<std::any_cast<int>(value)<<std::endl;return value;}
+    std::any execute() override{ if (value.type()== typeid(int))std::cout<<"Execute ValueNode "<<std::any_cast<int>(value)<<std::endl;return value;}
     ValueNode(std::shared_ptr<VariableContainer> &c, std::any v): ASTNode(c), value(std::move(v)){}
 };
 class DefaultValueNode: public ASTNode{

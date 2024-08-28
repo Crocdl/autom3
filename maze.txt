@@ -1,4 +1,4 @@
- , ,iron,glass|iron,iron|wood
+ ,wood,iron,glass|iron,iron|wood
  ,iron|wood, ,glass,wood
  , , ,wood,glass|iron
 glass,iron|wood, ,glass,glass

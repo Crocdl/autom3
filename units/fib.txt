@@ -17,10 +17,10 @@ enter true do
         enter forward do
             start
             b = left_rotate;
-            c = measure;
-            enter ex = "Ex"do
+                    c = measure;
+                    enter ex = "Ex"do
                     return true;
-            until false
+                    until false
             stop
         until false
         stop
@@ -32,7 +32,7 @@ enter true do
                 until false
         i = i+1;
     stop
-until true
+until i<13
 stop
 k = foo(c);
 /HELP\

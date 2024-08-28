@@ -1,0 +1,11 @@
+int function foo(a = 10, b = 20)
+start
+    int function func (c = 15, d = 10)
+    start
+    int a = c+d;
+    return a;
+    stop
+int d = func(a, b);
+return d;
+stop
+int res = foo(20, 15);
